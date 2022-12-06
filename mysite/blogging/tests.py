@@ -11,7 +11,6 @@ class PostTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.get(pk=1)
 
-
     def test_string_representation(self):
         expected = "This is a title"
         p1 = Post(title=expected)
