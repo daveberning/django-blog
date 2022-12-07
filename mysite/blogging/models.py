@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.admin import admin
 
 
 class Post(models.Model):
@@ -18,9 +19,22 @@ class Category(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField(blank=True)
     posts = models.ManyToManyField(Post, blank=True, related_name='categories')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = 'Categories'
 
     def __str__(self):
         return self.name
+
+
+class CategoryInline(admin.StackedInline):
+    model = Category
+
+
+class PostAdmin(admin.ModelAdmin):
+    inlines = [CategoryInline]
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    exclude = ('posts',)
